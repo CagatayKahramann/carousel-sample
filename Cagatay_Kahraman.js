@@ -29,10 +29,13 @@
         return 5;
     };
 
+    // Generate a random integer between min and max for randomized review counts
+    const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
     const buildHTML = () => {
         const fontLinks = [
             'https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap',
-            'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,0,1,0&icon_names=percent,discount',
+            'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,0,1,0&icon_names=percent_discount',
             'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=favorite,star'
         ];
         
@@ -325,7 +328,7 @@
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
-                min-height: 38px;
+                min-height: 34px;
             }
 
             .product-rating {
@@ -533,10 +536,19 @@
     // Show discount badge if there is a discount
     // Highlight favorite button if product is in favorites list
     const createProductCard = (product) => {
+        
+        const rating = getRandomInt(1, 5); // Random rating between 1 and 5
+        const reviewCount = getRandomInt(1, 9999); // Random review count between 1 and 9999
         const isFavorite = favorites.includes(product.id);
         
         let displayPrice = product.price;
         let displayOriginalPrice = product.original_price;
+        let starsHtml = '';
+
+        // Generate star rating HTML
+        for (let i = 1; i <= 5; i++) {
+            starsHtml += `<span class="material-symbols-rounded${i <= rating ? ' filled' : ''}">star</span>`;
+        }
         
         // Special case for product with id 8 where price is higher than original_price
         if (product.id === 8 && product.price > product.original_price) {
@@ -564,18 +576,15 @@
                         ${product.name}
                     </h2>
                     <div class="product-rating">
-                        <span class="material-symbols-rounded filled">star</span>
-                        <span class="material-symbols-rounded">star</span>
-                        <span class="material-symbols-rounded">star</span>
-                        <span class="material-symbols-rounded">star</span>
-                        <span class="material-symbols-rounded">star</span>
-                        <span class="review-count">(12)</span>
+                        ${starsHtml}
+                        <span class="review-count">(${reviewCount})</span>
                     </div>
                     <div class="price-container">
                         <div class="price-row">
                             ${hasDiscount ? `
                             <span class="original-price">${formatPrice(displayOriginalPrice)}</span>
                             <span class="discount-badge">%${discountPercent}</span>
+                            <svg class="discount-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#00a365"><path d="M480-80q-24 0-46-9t-39-26q-29-29-50-38t-63-9q-50 0-85-35t-35-85q0-42-9-63t-38-50q-17-17-26-39t-9-46q0-24 9-46t26-39q29-29 38-50t9-63q0-50 35-85t85-35q42 0 63-9t50-38q17-17 39-26t46-9q24 0 46 9t39 26q29 29 50 38t63 9q50 0 85 35t35 85q0 42 9 63t38 50q17 17 26 39t9 46q0 24-9 46t-26 39q-29 29-38 50t-9 63q0 50-35 85t-85 35q-42 0-63 9t-50 38q-17 17-39 26t-46 9Zm100-240q25 0 42.5-17.5T640-380q0-25-17.5-42.5T580-440q-25 0-42.5 17.5T520-380q0 25 17.5 42.5T580-320Zm-230-30q12 12 28 12t28-12l204-203q12-12 12-28.5T610-610q-12-12-28.5-12T553-610L350-406q-12 12-12 28t12 28Zm30-170q25 0 42.5-17.5T440-580q0-25-17.5-42.5T380-640q-25 0-42.5 17.5T320-580q0 25 17.5 42.5T380-520Z"/></svg>
                             ` : ''}
                         </div>
                         <div class="current-price${hasDiscount ? ' discounted' : ''}">${formatPrice(displayPrice)}</div>
