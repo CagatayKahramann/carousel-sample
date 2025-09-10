@@ -536,9 +536,9 @@
     // Show discount badge if there is a discount
     // Highlight favorite button if product is in favorites list
     const createProductCard = (product) => {
-        
+
         const rating = getRandomInt(1, 5); // Random rating between 1 and 5
-        const reviewCount = getRandomInt(1, 9999); // Random review count between 1 and 9999
+        const reviewCount = getRandomInt(1, 99999); // Random review count between 1 and 9999
         const isFavorite = favorites.includes(product.id);
         
         let displayPrice = product.price;
