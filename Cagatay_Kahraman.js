@@ -46,6 +46,13 @@
             document.head.appendChild(link);
         });
 
+        if (!document.querySelector('meta[name="viewport"]')) {
+            const viewport = document.createElement('meta');
+            viewport.name = 'viewport';
+            viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+            document.head.appendChild(viewport);
+        }
+        
         const html = `
             <div class="carousel-section">
                 <div class="carousel-container">
@@ -85,34 +92,19 @@
 
     const buildCSS = () => {
         const css = `
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            
-            :root {
-                --Primary-600: #005983;
-                --Primary-400: #0091d5;
-                --Primary-200: #d5effb;
-                --Primary-100: #f2fafe;
-                --Secondary-600: #a05e00;
-                --Secondary-400: #ff8a00;
-                --Secondary-400-Bg: #ff88001e;
-                --Secondary-100: #fef8eb;
-                --Success-400: #00a365;
-                --Success-100: #eafff7;
-                --Error-400: #ff4949;
-                --Warning-400: #ffc938;
-                --Neutral-0: #fff;
-                --Neutral-100: #f7f9fa;
-                --Neutral-200: #f2f5f7;
-                --Neutral-300: #e1e6ea;
-                --Neutral-500: #c1ccd4;
-                --Neutral-600: #a2b1bc;
-                --Neutral-700: #444c56;
-                --Neutral-800: #2b2f33;
+            .carousel-section {
+                margin: 20px 0;
+                font-family: 'Quicksand', sans-serif;
+                max-width: 100vw;
+                box-sizing: border-box; 
             }
 
-            .carousel-section { margin: 20px 0px; }
+            .carousel-section * {
+                box-sizing: border-box;
+            }
             
-            .carousel-container {
+            .carousel-section .carousel-container {
+                width: 100%;
                 max-width: 1340px;
                 height: fit-content;
                 margin: 0 auto;
@@ -121,46 +113,47 @@
                 border: none;
                 border-radius: 1.5rem;
                 box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.02);
+                box-sizing: border-box;
             }
 
-            .carousel-title {
-                display: flex;
+            .carousel-section .carousel-title {
+                display: flex !important;
                 background-color: #ff88001e;
                 color: var(--Secondary-400);
                 border-top-left-radius: 1.5rem;
                 border-top-right-radius: 1.5rem;
                 margin-bottom: 1rem;
                 min-height: 4rem;
-                max-height: 60px;
-                height: 60px;
+                padding: 16px 0;
+                height: auto;
                 align-items: center;
             }
 
-            .carousel-title b {
+            .carousel-section .carousel-title b {
                 margin-left: 48px;
                 font-size: 20px;
                 font-family: 'Quicksand';
-                font-weight: semi-bold;
+                font-weight: 600;
             }
 
-            .carousel-wrapper {
-                position: relative;
-                display: flex;
+            .carousel-section .carousel-wrapper {
+                position: relative !important;
+                display: flex !important;
                 align-items: center;
                 gap: 16px;
                 padding-bottom: 16px;
                 height: fit-content;
             }
 
-            .carousel-nav {
-                position: absolute;
+            .carousel-section .carousel-nav {
+                position: absolute !important;
                 background-color: #ff88001e;
                 border: none;
                 padding: 1px 4px;
                 border-radius: 50%;
                 width: 42px;
                 height: 42px;
-                display: flex;
+                display: flex !important;
                 align-items: center;
                 justify-content: center;
                 color: var(--Secondary-400);
@@ -170,47 +163,45 @@
                 flex-shrink: 0;
             }
 
-            .carousel-nav.prev {
-                position: absolute;
+            .carousel-section .carousel-nav.prev {
                 left: -5%;
                 top: 50%;
                 transform: translateY(-50%);
             }
 
-            .carousel-nav.next {
-                position: absolute;
+            .carousel-section .carousel-nav.next {
                 right: -5%;
                 top: 50%;
                 transform: translateY(-50%);
             }
 
-            .carousel-nav:disabled {
+            .carousel-section .carousel-nav:disabled {
                 opacity: 0.5;
                 cursor: not-allowed;
             }
 
-            .carousel-track-container {
-                overflow: hidden;
+            .carousel-section .carousel-track-container {
+                overflow: hidden !important;
                 flex: 1;
                 position: relative;
             }
 
-            .carousel-track {
-                display: flex;
+            .carousel-section .carousel-track {
+                display: flex !important;
                 transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
                 gap: 16px;
             }
 
-            .loading {
+            .carousel-section .loading {
                 text-align: center;
                 padding: 40px;
                 color: #666;
                 width: 100%;
             }
 
-            .product-card {
-                display: flex;
-                flex-direction: column;
+            .carousel-section .product-card {
+                display: flex !important;
+                flex-direction: column !important;
                 flex-shrink: 0;
                 background: #fff;
                 border-radius: 10px;
@@ -220,15 +211,13 @@
                 cursor: pointer;
                 position: relative;
                 width: 100%;
-                min-width: 160px;
-                max-width: 280px;
             }
 
-            .product-card:hover {
+            .carousel-section .product-card:hover {
                 box-shadow: 0 8px 12px rgba(0,0,0,0.10);
             }
 
-            .product-image-container {
+            .carousel-section .product-image-container {
                 position: relative;
                 aspect-ratio: 4/3;
                 width: 100%;
@@ -238,7 +227,7 @@
                 background: #FFFFFF;
             }
 
-            .product-image {
+            .carousel-section .product-image {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
@@ -247,7 +236,7 @@
                 pointer-events: none;
             }
 
-            .badge-container {
+            .carousel-section .badge-container {
                 position: absolute;
                 top: 12px;
                 left: 12px;
@@ -257,22 +246,33 @@
                 z-index: 2;
             }
 
-            .badge {
+            .carousel-section .badge {
                 display: flex;
+                margin-bottom: 2px;
                 justify-content: center;
                 align-items: center; 
-                background: linear-gradient(180deg,rgba(0, 163, 101, 1) 0%, rgba(0, 209, 129, 1) 95%);
+                border-radius: 100%;
+                height: 40px;
+                width: 40px;
                 color: white;
                 font-family: Quicksand;
                 font-size: 8px;
                 font-weight: bold;
-                border-radius: 100%;
-                height: 42px;
-                width: 42px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             }
 
-            .favorite-btn {
+            .carousel-section .badge.free-shipment {
+                background: linear-gradient(180deg,rgba(0, 163, 101, 1) 0%, rgba(0, 209, 129, 1) 95%);
+            }
+
+            .carousel-section .badge.top-seller {
+                background: linear-gradient(180deg,rgba(255, 138, 0, 1) 0%, rgb(255, 194, 124) 95%);
+            }
+
+            .carousel-section .badge.star-product {
+                background: linear-gradient(180deg,rgba(255, 201, 56, 1) 0%, rgb(252, 214, 110) 95%);
+            }
+
+            .carousel-section .favorite-btn {
                 position: absolute;
                 top: 8px;
                 right: 12px;
@@ -290,26 +290,26 @@
                 box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
             }
 
-            .favorite-btn:hover {
+            .carousel-section .favorite-btn:hover {
                 box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.45);
                 font-variation-settings: 'FILL' 1;
             }
 
-            .favorite-btn .material-symbols-rounded {
+            .carousel-section .favorite-btn .material-symbols-rounded {
                 font-size: 24px;
                 color: #ff8a00;
             }
 
-            .favorite-btn.active .material-symbols-rounded {
+            .carousel-section .favorite-btn.active .material-symbols-rounded {
                 font-variation-settings: 'FILL' 1;
             }
 
-            .product-info {
+            .carousel-section .product-info {
                 padding: 16px;
                 overflow: hidden;
             }
 
-            .product-info b {
+            .carousel-section .product-info b {
                 font-size: 12px;
                 color: #202020ff;
                 font-weight: bold;
@@ -318,7 +318,7 @@
                 overflow: hidden;
             }
 
-            .product-info h2 {
+            .carousel-section .product-info h2 {
                 font-size: 12px;
                 font-weight: regular;
                 color: #202020ff;
@@ -331,7 +331,7 @@
                 min-height: 34px;
             }
 
-            .product-rating {
+            .carousel-section .product-rating {
                 display: flex;
                 align-items: center;
                 margin-bottom: 4px;
@@ -339,29 +339,29 @@
                 padding-left: 8px;
             }
 
-            .product-rating .material-symbols-rounded {
+            .carousel-section .product-rating .material-symbols-rounded {
                 font-size: 20px;
                 color: rgba(143, 137, 137, 0.4);
             }
 
-            .product-rating .material-symbols-rounded.filled {
+            .carousel-section .product-rating .material-symbols-rounded.filled {
                 color: var(--Warning-400);
                 font-variation-settings: 'FILL' 1;
             }
 
-            .review-count {
+            .carousel-section .review-count {
                 font-size: 12px;
                 color: #666;
                 margin-left: 4px;
             }
 
-            .price-container {
+            .carousel-section .price-container {
                 height: 54px;
                 margin-bottom: 8px;
                 padding-left: 4px;
             }
 
-            .price-row {
+            .carousel-section .price-row {
                 display: flex;
                 height: 20px;
                 margin-bottom: 4px;
@@ -370,7 +370,7 @@
                 flex-wrap: nowrap;
             }
 
-            .original-price {
+            .carousel-section .original-price {
                 font-family: 'Quicksand', sans-serif;
                 font-size: 12px;
                 color: #999;
@@ -378,7 +378,7 @@
                 font-weight: 500;
             }
 
-            .discount-badge {
+            .carousel-section .discount-badge {
                 color: var(--Success-400);
                 font-size: 16px;
                 font-weight: 700;
@@ -388,7 +388,7 @@
                 display: inline-block;
             }
 
-            .current-price {
+            .carousel-section .current-price {
                 font-family: 'Quicksand', sans-serif;
                 font-size: 20px;
                 height: 24px;
@@ -397,35 +397,47 @@
                 color: #333;
             }
 
-            .current-price.discounted {
+            .carousel-section .current-price.discounted {
                 color: var(--Success-400);
             }
 
-            .promotion-text {
+            .carousel-section .promotion-text {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: #00a36411;
                 height: 26px;
                 width: fit-content;
-                padding: 6px 8px;
+                padding: 8px 0px;
                 border-radius: 16px;
-                margin-bottom: 2rem;
+                margin-bottom: 44px;
             }
 
-            .promotion-text b {
-                font-family: 'Quicksand', sans-serif;
+            .carousel-section .promotion {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 26px;
+                padding: 0 8px;
+                margin: 0;
+                width: fit-content;
+                border-radius: 16px;
+                font-family: 'Quicksand';
                 font-size: 10px;
                 font-weight: 540;
+            }
+
+            .carousel-section .promotion.buy-3-pay-2 {
+                background-color: #00a36411;
                 color: var(--Success-400);
             }
 
-            .add-to-cart {
-                background: var(--Secondary-400-Bg);
+            .carousel-section .add-to-cart {
+                background: #ff88001e;
                 color: var(--Secondary-400);
                 border: none;
                 border-radius: 24px;
                 padding: 12px;
+                margin-top: auto !important;
                 font-family: 'Quicksand', sans-serif;
                 font-size: 14px;
                 font-weight: bold;
@@ -435,78 +447,173 @@
                 width: 100%;
             }
 
-            .add-to-cart:hover {
+            .carousel-section .add-to-cart:hover {
                 background: var(--Secondary-400);
                 color: white;
             }
 
-            /* Responsive Design */
-            @media (min-width: 1200px) {
-                .carousel-container { max-width: 1320px; padding: 0 20px; }
-                .carousel-title b { font-size: 24px; margin-left: 48px; }
+            .carousel-section .carousel-nav {
+                visibility: hidden !important;
             }
 
-            @media (min-width: 1024px) and (max-width: 1199px) {
-                .carousel-container { max-width: 1120px; padding: 0 18px; }
-                .carousel-title b { font-size: 22px; margin-left: 44px; }
-                .product-image-container { max-height: 165px; }
+
+            /* Responsive Styles */
+            @media (hover: hover) {
+                .carousel-section .carousel-nav {
+                    visibility: visible !important;
+                }
+            }
+
+            @media (hover: none) and (min-width: 768px) {
+                .carousel-section .carousel-nav {
+                    visibility: visible !important;
+                }
+            }
+
+            @media (hover: none) and (max-width: 480px) {
+                .carousel-section { 
+                    margin: 30px 0px;
+                    width: 100% !important;
+                    max-width: 100vw !important; 
+                }
+                .carousel-section .carousel-container { 
+                    max-width: calc(100vw - 16px) !important;
+                    padding: 0 8px !important; 
+                    border-radius: 1rem; 
+                }
+                .carousel-section .carousel-title { 
+                    margin-bottom: 16px; 
+                    min-height: 3rem;
+                    padding: 10px 0; 
+                }
+                .carousel-section .carousel-title b { 
+                    font-size: 16px !important; 
+                    margin-left: 20px !important; 
+                }
+                .carousel-section .carousel-nav { 
+                    width: 36px; 
+                    height: 36px; 
+                }
+                .carousel-section .product-image-container { 
+                    max-height: 135px; 
+                }
+                .carousel-section .product-info { 
+                    padding: 12px; 
+                }
+                .carousel-section .current-price { 
+                    font-size: 17px !important; 
+                }
+                .carousel-section .carousel-track { 
+                    gap: 8px !important; 
+                }
+                .carousel-section .carousel-wrapper { 
+                    gap: 8px !important; 
+                }
+                .carousel-section .carousel-track .product-card {
+                    flex-basis: calc(50% - 4px) !important;
+                    width: calc(50% - 4px) !important;
+                    min-width: unset !important;
+                    max-width: unset !important;
+                }
+            }
+
+            @media (hover: none) and (min-width: 481px) and (max-width: 767px) {
+                .carousel-section { 
+                    margin: 40px 0px; 
+                }
+                .carousel-section .carousel-container { 
+                    max-width: 100% !important;
+                    padding: 0 12px !important; 
+                    border-radius: 1.2rem; 
+                }
+                .carousel-section .carousel-title b { 
+                    font-size: 18px !important; 
+                    margin-left: 24px !important; 
+                }
+                .carousel-section .carousel-track { 
+                    gap: 10px !important; 
+                }
+                .carousel-section .carousel-wrapper { 
+                    gap: 10px !important; 
+                }
+                .carousel-section .carousel-track .product-card {
+                    flex-basis: calc(33.333% - 7px) !important;
+                    width: calc(33.333% - 7px) !important;
+                    min-width: unset !important;
+                    max-width: unset !important;
+                }
             }
 
             @media (min-width: 768px) and (max-width: 1023px) {
-                .carousel-container { padding: 0 16px; border-radius: 1.25rem; }
-                .carousel-title { min-height: 3.5rem; }
-                .carousel-title b { font-size: 20px; margin-left: 40px; }
-                .carousel-nav { width: 40px; height: 40px; visibility: hidden;}
-                .product-image-container { max-height: 170px; }
-                .product-info { padding: 15px; }
-                .current-price { font-size: 19px; }
-                .carousel-track { gap: 14px; }
-                .carousel-wrapper { gap: 14px; }
+                .carousel-section .carousel-container { 
+                    max-width: 100% !important;
+                    padding: 0 16px !important; 
+                    border-radius: 1.25rem; 
+                }
+                .carousel-section .carousel-title b { 
+                    font-size: 20px !important; 
+                    margin-left: 32px !important; 
+                }
+                .carousel-section .carousel-track { 
+                    gap: 12px !important; 
+                }
+                .carousel-section .carousel-wrapper { 
+                    gap: 12px !important; 
+                }
+                .carousel-section .carousel-track .product-card {
+                    flex-basis: calc(25% - 9px) !important;
+                    width: calc(25% - 9px) !important;
+                    min-width: unset !important;
+                    max-width: unset !important;
+                }
             }
 
-            @media (min-width: 481px) and (max-width: 767px) {
-                .carousel-section { margin: 40px 0px; }
-                .carousel-container { padding: 0 14px; border-radius: 1.2rem; }
-                .carousel-title { margin-bottom: 18px; min-height: 3.2rem; }
-                .carousel-title b { font-size: 18px; margin-left: 36px; }
-                .carousel-nav { width: 38px; height: 38px; }
-                .carousel-nav.prev { left: -4px; }
-                .carousel-nav.next { right: -4px; }
-                .product-image-container { max-height: 150px; }
-                .product-info { padding: 14px; }
-                .current-price { font-size: 18px; }
-                .carousel-track { gap: 12px; }
-                .carousel-wrapper { gap: 12px; }
+            @media (min-width: 1024px) and (max-width: 1199px) {
+                .carousel-section .carousel-container { 
+                    max-width: 1120px !important; 
+                    padding: 0 18px !important; 
+                }
+                .carousel-section .carousel-title b { 
+                    font-size: 22px !important; 
+                    margin-left: 44px !important; 
+                }
+                .carousel-section .carousel-track { 
+                    gap: 14px !important; 
+                }
+                .carousel-section .carousel-wrapper { 
+                    gap: 14px !important; 
+                }
+                .carousel-section .carousel-track .product-card {
+                    flex-basis: calc(20% - 11px) !important;
+                    width: calc(20% - 11px) !important;
+                    min-width: unset !important;
+                    max-width: unset !important;
+                }
             }
 
-            @media (max-width: 480px) {
-                .carousel-section { margin: 30px 0px; }
-                .carousel-container { padding: 0 12px; border-radius: 1rem; }
-                .carousel-title { margin-bottom: 16px; min-height: 3rem; }
-                .carousel-title b { font-size: 16px; margin-left: 28px; }
-                .carousel-nav { width: 36px; height: 36px; }
-                .carousel-nav.prev { left: -3px; visibility: hidden; }
-                .carousel-nav.next { right: -3px; visibility: hidden; }
-                .product-image-container { max-height: 135px; }
-                .product-info { padding: 12px; }
-                .current-price { font-size: 17px; }
-                .carousel-track { gap: 8px; }
-                .carousel-wrapper { gap: 8px; }
+            @media (min-width: 1200px) {
+                .carousel-section .carousel-container { 
+                    max-width: 1320px !important; 
+                    padding: 0 20px !important; 
+                }
+                .carousel-section .carousel-title b { 
+                    font-size: 24px !important; 
+                    margin-left: 48px !important; 
+                }
+                .carousel-section .carousel-track { 
+                    gap: 16px !important; 
+                }
+                .carousel-section .carousel-wrapper { 
+                    gap: 16px !important; 
+                }
+                .carousel-section .carousel-track .product-card {
+                    flex-basis: calc(20% - 13px) !important;
+                    width: calc(20% - 13px) !important;
+                    min-width: unset !important;
+                    max-width: unset !important;
+                }
             }
 
-            @media (max-width: 380px) {
-                .carousel-container { padding: 0 8px; }
-                .carousel-title b { font-size: 14px; margin-left: 24px; }
-                .product-image-container { max-height: 120px; }
-                .current-price { font-size: 16px; }
-            }
-
-            @media (max-height: 500px) and (orientation: landscape) {
-                .carousel-section { margin: 20px 0px; }
-                .carousel-title { min-height: 2.5rem; margin-bottom: 12px; }
-                .product-image-container { max-height: 100px; }
-                .current-price { font-size: 15px; }
-            }
         `;
 
         const style = document.createElement('style');
@@ -535,6 +642,7 @@
     // Create product card HTMLs with all details the that are fetched from API
     // Show discount badge if there is a discount
     // Highlight favorite button if product is in favorites list
+    // Randomly show badges, review counts and ratings for demo purposes
     const createProductCard = (product) => {
 
         const rating = getRandomInt(1, 5); // Random rating between 1 and 5
@@ -549,7 +657,7 @@
         for (let i = 1; i <= 5; i++) {
             starsHtml += `<span class="material-symbols-rounded${i <= rating ? ' filled' : ''}">star</span>`;
         }
-        
+
         // Special case for product with id 8 where price is higher than original_price
         if (product.id === 8 && product.price > product.original_price) {
             displayPrice = product.original_price;
@@ -564,7 +672,9 @@
                 <div class="product-image-container">
                     <img class="product-image" src="${product.img}" alt="${product.name}" loading="lazy">
                     <div class="badge-container">
-                        <div class="badge">KARGO<br>BEDAVA</div>
+                        ${(getRandomInt(0, 1) === 1) ? '<div class="badge free-shipment">KARGO<br>BEDAVA</div>' : ''}
+                        ${(getRandomInt(0, 1) === 1) ? '<div class="badge top-seller">EN ÇOK<br>SATAN</div>' : ''}
+                        ${(getRandomInt(0, 1) === 1) ? '<div class="badge star-product">YILDIZ<br>ÜRÜN</div>' : ''}
                     </div>
                     <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${product.id}">
                         <span class="material-symbols-rounded">favorite</span>
@@ -590,7 +700,7 @@
                         <div class="current-price${hasDiscount ? ' discounted' : ''}">${formatPrice(displayPrice)}</div>
                     </div>
                     <div class="promotion-text">
-                        <b>Farklı Ürünlerde 3 Al 2 Öde</b>
+                        ${(getRandomInt(0, 1) === 1) ? '<p class="promotion buy-3-pay-2">Farklı Ürünlerde 3 Al 2 Öde</p>' : ''}
                     </div>
                     <button class="add-to-cart">Sepete Ekle</button>
                 </div>
@@ -616,12 +726,22 @@
         containerWidth = container.offsetWidth;
         visibleItems = getVisibleItems();
         
-        const cards = document.querySelectorAll('.product-card');
-        cards.forEach(card => {
-            card.style.flexBasis = `calc(${100/visibleItems}% - ${(16 * (visibleItems-1))/visibleItems}px)`;
-        });
+        // Get actual card and gap measurements
+        const firstCard = document.querySelector('.carousel-section .product-card');
+        const track = document.querySelector('.carousel-section .carousel-track');
         
-        itemWidth = containerWidth / visibleItems;
+        if (firstCard && track) {
+            // Get real card width and gap
+            const cardWidth = firstCard.getBoundingClientRect().width;
+            const trackStyle = window.getComputedStyle(track);
+            const gap = parseFloat(trackStyle.gap) || 16;
+            
+            // Calculate actual item width (card + gap)
+            itemWidth = cardWidth + gap;
+        } else {
+            // Fallback calculation if cards not rendered yet
+            itemWidth = containerWidth / visibleItems;
+        }
     };
 
     // Update carousel position based on currentTranslate value
@@ -631,69 +751,33 @@
         const track = document.getElementById('carouselTrack');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-            
-        // If carousel track is not found, return
+        
         if (!track) return;
-
-        const cards = document.querySelectorAll('.product-card');
-        if (cards.length < 2) return;
         
-        // Calculate actual card spacing including margin
-        const firstCardRect = cards[0].getBoundingClientRect();
-        const secondCardRect = cards[1].getBoundingClientRect();
-        const actualItemSpacing = secondCardRect.left - firstCardRect.left;
-        
-        const contentWidth = (products.length - visibleItems) * actualItemSpacing;
-        const maxTranslate = -Math.max(0, contentWidth);
-        
-        const currentIndex = Math.round(Math.abs(currentTranslate) / actualItemSpacing);
-        currentTranslate = -currentIndex * actualItemSpacing;
-        
-        currentTranslate = Math.min(0, Math.max(maxTranslate, currentTranslate));
-
+        // Apply the transform
         track.style.transform = `translateX(${currentTranslate}px)`;
-
-        // Disable prev button at the start, disable next button at the end
-        if (prevBtn) {
-            prevBtn.disabled = currentTranslate >= 0;
-        }
         
+        // Update button states
+        if (prevBtn) prevBtn.disabled = (currentTranslate >= 0);
         if (nextBtn) {
-            const remainingScrolls = Math.max(0, products.length - visibleItems);
-            const currentScrollIndex = Math.abs(currentTranslate) / actualItemSpacing;
-            nextBtn.disabled = currentScrollIndex >= remainingScrolls;
+            const maxTranslate = -itemWidth * (products.length - visibleItems);
+            nextBtn.disabled = (currentTranslate <= maxTranslate);
         }
     };
 
     // Slide to next or previous item and update currentTranslate value accordingly
     const slideNext = () => {
-        const cards = document.querySelectorAll('.product-card');
-        if (cards.length < 2) return;
+        const totalItems = products.length;
+        if (totalItems <= visibleItems) return;
         
-        const firstCardRect = cards[0].getBoundingClientRect();
-        const secondCardRect = cards[1].getBoundingClientRect();
-        const actualItemSpacing = secondCardRect.left - firstCardRect.left;
-        
-        const contentWidth = (products.length - visibleItems) * actualItemSpacing;
-        const maxTranslate = -Math.max(0, contentWidth);
-        
-        currentTranslate -= actualItemSpacing;
-        currentTranslate = Math.max(maxTranslate, currentTranslate);
+        const maxTranslate = -itemWidth * (totalItems - visibleItems);
+        currentTranslate = Math.max(currentTranslate - itemWidth, maxTranslate);
         
         updateCarouselPosition();
     };
 
     const slidePrev = () => {
-        const cards = document.querySelectorAll('.product-card');
-        if (cards.length < 2) return;
-        
-        const firstCardRect = cards[0].getBoundingClientRect();
-        const secondCardRect = cards[1].getBoundingClientRect();
-        const actualItemSpacing = secondCardRect.left - firstCardRect.left;
-        
-        currentTranslate += actualItemSpacing;
-        currentTranslate = Math.min(0, currentTranslate);
-        
+        currentTranslate = Math.min(currentTranslate + itemWidth, 0);
         updateCarouselPosition();
     };
 
@@ -794,9 +878,32 @@
         });
 
         // Recalculate dimensions and update carousel position on window resize
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            calculateDimensions();
-            updateCarouselPosition();
+            // Debounce rapid resize events
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Reset all carousel state
+                currentTranslate = 0;
+                itemWidth = 0;
+                containerWidth = 0;
+                visibleItems = 0;
+
+                // Show loading state
+                const track = document.getElementById('carouselTrack');
+                if (track) {
+                    track.innerHTML = '<div class="loading">Yeniden düzenleniyor...</div>';
+                }
+
+                // Re-render everything fresh
+                renderProducts();
+                
+                // Small delay to ensure DOM updates complete
+                setTimeout(() => {
+                    calculateDimensions();
+                    updateCarouselPosition();
+                }, 50);
+            }, 100); // 100ms debounce
         });
 
         let startX = 0;
@@ -821,11 +928,14 @@
             const endX = e.changedTouches[0].clientX;
             const diffX = startX - endX;
             
-            if (Math.abs(diffX) > 30) {
+            // Use 40% of the correct itemWidth as threshold
+            const threshold = itemWidth * 0.4;
+            
+            if (Math.abs(diffX) > threshold) {
                 if (diffX > 0) {
-                    slideNext();
+                    slideNext(); 
                 } else {
-                    slidePrev();
+                    slidePrev(); 
                 }
             } else {
                 updateCarouselPosition(); 
