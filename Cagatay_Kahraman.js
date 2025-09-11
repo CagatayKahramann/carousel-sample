@@ -880,10 +880,8 @@
         // Recalculate dimensions and update carousel position on window resize
         let resizeTimeout;
         window.addEventListener('resize', () => {
-            // Debounce rapid resize events
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
-                // Reset all carousel state
                 currentTranslate = 0;
                 itemWidth = 0;
                 containerWidth = 0;
@@ -895,21 +893,19 @@
                     track.innerHTML = '<div class="loading">Yeniden düzenleniyor...</div>';
                 }
 
-                // Re-render everything fresh
                 renderProducts();
                 
-                // Small delay to ensure DOM updates complete
                 setTimeout(() => {
                     calculateDimensions();
                     updateCarouselPosition();
                 }, 50);
-            }, 100); // 100ms debounce
+            }, 100); 
         });
 
         let startX = 0;
         let isDragging = false;
 
-        // Touch events for swipe functionality that will be used on mobile devices for responsive design
+        // Touch events for swipe functionality
         document.addEventListener('touchstart', (e) => {
             if (e.target.closest('.carousel-track')) {
                 startX = e.touches[0].clientX;
@@ -928,7 +924,6 @@
             const endX = e.changedTouches[0].clientX;
             const diffX = startX - endX;
             
-            // Use 40% of the correct itemWidth as threshold
             const threshold = itemWidth * 0.4;
             
             if (Math.abs(diffX) > threshold) {
