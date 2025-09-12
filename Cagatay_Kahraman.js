@@ -3,7 +3,7 @@
         buildHTML();
         buildCSS();
         setEvents();
-        loadProducts();
+        fetchProducts();
     };
 
     // Global variables
@@ -23,9 +23,9 @@
     // Responsive breakpoints for carousel item count
     const getVisibleItems = () => {
         const w = window.innerWidth;
-        if (w <= 480) return 2;
-        if (w <= 768) return 3;
-        if (w <= 1024) return 4;
+        if (w <= 992) return 2;
+        if (w <= 1280) return 3;
+        if (w <= 1480) return 4;
         return 5;
     };
 
@@ -34,9 +34,8 @@
 
     const buildHTML = () => {
         const fontLinks = [
+            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
             'https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap',
-            'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,0,1,0&icon_names=percent_discount',
-            'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=favorite,star'
         ];
         
         fontLinks.forEach(href => {
@@ -57,7 +56,7 @@
             <div class="carousel-section">
                 <div class="carousel-container">
                     <div class="carousel-title">
-                        <b>Beğenebileceğinizi düşündüklerimiz</b>
+                        <b>Beğenebileceğinizi Düşündüklerimiz</b>
                     </div>
                     <div class="carousel-wrapper">
                         <div class="carousel-track-container">
@@ -66,14 +65,10 @@
                             </div>
                         </div>
                         <button class="carousel-nav prev" id="prevBtn">
-                            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-                            </svg>
+                            <i class="left-button-icon"></i>
                         </button>
                         <button class="carousel-nav next" id="nextBtn">
-                            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
-                            </svg>
+                            <i class="next-button-icon"></i>
                         </button>
                     </div>
                 </div>
@@ -105,35 +100,13 @@
             
             .carousel-section .carousel-container {
                 width: 100%;
-                max-width: 1340px;
+                max-width: 1320px;
                 height: fit-content;
                 margin: 0 auto;
-                padding: 0 10px;
+                padding: 0 15px;
                 position: relative;
                 border: none;
-                border-radius: 1.5rem;
-                box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.02);
                 box-sizing: border-box;
-            }
-
-            .carousel-section .carousel-title {
-                display: flex !important;
-                background-color: #ff88001e;
-                color: var(--Secondary-400);
-                border-top-left-radius: 1.5rem;
-                border-top-right-radius: 1.5rem;
-                margin-bottom: 1rem;
-                min-height: 4rem;
-                padding: 16px 0;
-                height: auto;
-                align-items: center;
-            }
-
-            .carousel-section .carousel-title b {
-                margin-left: 48px;
-                font-size: 20px;
-                font-family: 'Quicksand';
-                font-weight: 600;
             }
 
             .carousel-section .carousel-wrapper {
@@ -141,43 +114,70 @@
                 display: flex !important;
                 align-items: center;
                 gap: 16px;
-                padding-bottom: 16px;
                 height: fit-content;
+            }
+
+            .carousel-section .carousel-title {
+                display: flex !important;
+                color: black;
+                margin-bottom: clamp(16px, 2vw, 20px);
+                min-height: 4rem;
+                height: auto;
+                align-items: center;
+            }
+
+            .carousel-section .carousel-title b {
+                font-size: 24px;
+                font-family: 'Quicksand-Semibold';
+                font-weight: 600;
             }
 
             .carousel-section .carousel-nav {
                 position: absolute !important;
-                background-color: #ff88001e;
+                background-color: var(--Neutral-0---White) !important;
                 border: none;
                 padding: 1px 4px;
-                border-radius: 50%;
-                width: 42px;
-                height: 42px;
+                border-radius: 50% !important;
+                box-shadow: inset 0 6px 2px 0 #b0b0b003,0 2px 9px 0 #b0b0b014,0 2px 4px 0 #b0b0b024,0 0 1px 0 #b0b0b03d,0 0 1px 0 #b0b0b047;
+                width: clamp(28px, 8vw, 40px);
+                height: clamp(28px, 8vw, 40px);
                 display: flex !important;
                 align-items: center;
                 justify-content: center;
-                color: var(--Secondary-400);
                 cursor: pointer;
                 z-index: 10;
-                transition: all 0.2s ease;
-                flex-shrink: 0;
+            }
+
+            .carousel-section .carousel-nav i {
+                width: clamp(8px, 4vw, 14px);  
+                height: clamp(8px, 4vw, 14px); 
+                display: inline-block;
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: 50%;
+                aspect-ratio: 1;
+            }
+
+            .carousel-section .left-button-icon {
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/arrow-left.svg');
+            }
+
+            .carousel-section .next-button-icon {
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/arrow-right.svg');
             }
 
             .carousel-section .carousel-nav.prev {
-                left: -5%;
+                left: -65px;
                 top: 50%;
+                bottom: auto;
                 transform: translateY(-50%);
             }
 
             .carousel-section .carousel-nav.next {
-                right: -5%;
+                right: -65px;
                 top: 50%;
+                bottom: auto;
                 transform: translateY(-50%);
-            }
-
-            .carousel-section .carousel-nav:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
             }
 
             .carousel-section .carousel-track-container {
@@ -188,217 +188,284 @@
 
             .carousel-section .carousel-track {
                 display: flex !important;
-                transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                transition: transform 0.25s;
                 gap: 16px;
             }
 
-            .carousel-section .loading {
-                text-align: center;
-                padding: 40px;
-                color: #666;
-                width: 100%;
-            }
-
             .carousel-section .product-card {
-                display: flex !important;
-                flex-direction: column !important;
-                flex-shrink: 0;
+                flex: 0 0 auto;                   
+                width: calc((100% - 64px) / 5) !important;
+                aspect-ratio: 243/385;
+                max-height: 385px !important;                  
+                font-size: clamp(8px, 2.5vw, 12px);
+                border-radius: 8px;
+                position: relative;
+                display: block !important;
+                font-family: 'Quicksand', sans-serif;
                 background: #fff;
-                border-radius: 10px;
-                border: 1px solid #ececec;
+                border: 1px solid var(--Neutral-200);
                 overflow: hidden;
                 transition: all 0.2s ease;
                 cursor: pointer;
-                position: relative;
-                width: 100%;
+                text-decoration: none;
+                background-color: var(--Neutral-0---White);
+                z-index: 1;
             }
 
             .carousel-section .product-card:hover {
-                box-shadow: 0 8px 12px rgba(0,0,0,0.10);
+                border: 1px solid var(--Neutral-500);
+            }
+
+            .carousel-section .product-card-wrapper{
+                color: unset;
+                background: unset;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
             }
 
             .carousel-section .product-image-container {
                 position: relative;
-                aspect-ratio: 4/3;
-                width: 100%;
-                height: auto;
-                max-height: 160px;
-                overflow: visible;
-                background: #FFFFFF;
-            }
-
-            .carousel-section .product-image {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                -webkit-user-drag: none;
-                user-select: none;
-                pointer-events: none;
+                aspect-ratio: 243/203 important!;
+                width: 100% important!;
+                height: 203px important!;
+                overflow: hidden;
+                margin-bottom: 10px;
             }
 
             .carousel-section .badge-container {
                 position: absolute;
-                top: 12px;
-                left: 12px;
+                left: 6px;
+                top: 6px;
+                border-radius: 15px;
+                height: fit-content;
+                display: flex;
+                justify-content: flex-start;
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .carousel-section .badge-icon {
+                display: flex;
+                margin-bottom: 2px;
+                width: 40px;
+                height: auto;
+                aspect-ratio: 1;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+
+            .carousel-section .badge-icon.top-seller {
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/most-seller-product.svg');
+            }
+
+            .carousel-section .badge-icon.star-product {
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/star-product.svg');
+            }
+
+            .carousel-section .video-ar-container {
                 display: flex;
                 flex-direction: column;
-                gap: 4px;
+                grid-gap: 2px;
+                gap: 2px;
+                position: absolute;
+                bottom: 6px;
+                left: 6px;
                 z-index: 2;
             }
 
-            .carousel-section .badge {
-                display: flex;
-                margin-bottom: 2px;
-                justify-content: center;
-                align-items: center; 
-                border-radius: 100%;
-                height: 40px;
-                width: 40px;
-                color: white;
-                font-family: Quicksand;
-                font-size: 8px;
-                font-weight: bold;
-            }
-
-            .carousel-section .badge.free-shipment {
-                background: linear-gradient(180deg,rgba(0, 163, 101, 1) 0%, rgba(0, 209, 129, 1) 95%);
-            }
-
-            .carousel-section .badge.top-seller {
-                background: linear-gradient(180deg,rgba(255, 138, 0, 1) 0%, rgb(255, 194, 124) 95%);
-            }
-
-            .carousel-section .badge.star-product {
-                background: linear-gradient(180deg,rgba(255, 201, 56, 1) 0%, rgb(252, 214, 110) 95%);
-            }
-
-            .carousel-section .favorite-btn {
-                position: absolute;
-                top: 8px;
-                right: 12px;
-                background: rgba(255,255,255,0.95);
-                border: none;
-                border-radius: 50%;
-                width: 38px;
-                height: 38px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                z-index: 3;
-                box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
-            }
-
-            .carousel-section .favorite-btn:hover {
-                box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.45);
-                font-variation-settings: 'FILL' 1;
-            }
-
-            .carousel-section .favorite-btn .material-symbols-rounded {
-                font-size: 24px;
-                color: #ff8a00;
-            }
-
-            .carousel-section .favorite-btn.active .material-symbols-rounded {
-                font-variation-settings: 'FILL' 1;
-            }
-
-            .carousel-section .product-info {
-                padding: 16px;
-                overflow: hidden;
-            }
-
-            .carousel-section .product-info b {
-                font-size: 12px;
-                color: #202020ff;
-                font-weight: bold;
-                margin-bottom: 4px;
-                text-transform: capitalize;
-                overflow: hidden;
-            }
-
-            .carousel-section .product-info h2 {
-                font-size: 12px;
-                font-weight: regular;
-                color: #202020ff;
-                line-height: 1.4;
-                margin-bottom: 8px;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                min-height: 34px;
-            }
-
-            .carousel-section .product-rating {
-                display: flex;
-                align-items: center;
-                margin-bottom: 4px;
+            .carousel-section .video-icon-container {
+                width: 20px;
                 height: 20px;
-                padding-left: 8px;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                background-color: var(--Neutral-700);
+                z-index: 2;
             }
 
-            .carousel-section .product-rating .material-symbols-rounded {
-                font-size: 20px;
-                color: rgba(143, 137, 137, 0.4);
+            .carousel-section .ar-icon-container {
+                width: 20px;
+                height: 20px;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100%;
+                background-color: var(--Neutral-700);
+                z-index: 2;
             }
 
-            .carousel-section .product-rating .material-symbols-rounded.filled {
-                color: var(--Warning-400);
-                font-variation-settings: 'FILL' 1;
+            .carousel-section .video-icon {
+                aspect-ratio: 6.66 / 9.72;
+                width: 6.66px;
+                margin-left: 1px;
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/play-video.svg');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                display: block;
+            }
+
+            .carousel-section .ar-icon {
+                aspect-ratio: 8.81 / 9.79;
+                width: 11px;
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/cube-ar.svg');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                display: block;
+            }
+
+            .carousel-section .line-badge {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 26px;
+                text-align: center;
+                z-index: 3;
+            }
+
+            .carousel-section .free-shipment-bagde {
+                height: 100%;
+                width: 100%;
+                background-color: var(--Primary-200);
+                color: var(--Primary-400);
+                font-size: 10px;
+                font-family: Quicksand-SemiBold;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                grid-gap: 5px;
+                gap: 5px;
+                text-align: center;
+            }
+
+            .carousel-section .truck-icon {
+                height: auto;
+                width: 15px;
+                aspect-ratio: 15/10;
+                display: inline-block;
+                background-position: 50%;
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/truck.svg');
+            }
+
+            .carousel-section .product-image-wrapper {
+                aspect-ratio: 243/203;
+                width: 100%;
+                height: 203px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .carousel-section .product-image {
+                width: auto;
+                height: 100%;
+                object-fit: contain;
+                -webkit-user-drag: none;
+                user-select: none;
+                pointer-events: none;
+            }
+                
+            .carousel-section .product-info {
+                display: block;
+                padding: 0 10px;
+                padding-bottom: 13px;
+                font-family: Quicksand-Medium;
+                font-size: 12px;
+            }
+
+            .carousel-section .product-brand b {
+                font-weight: bolder;
+            }
+
+            .carousel-section .product-brand {
+                font-size: 12px;
+                color: var(--Primary-Black);
+                text-overflow: ellipsis;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                display: -webkit-box;
+                margin-bottom: 10px;
+            }
+
+            .carousel-section .stars-wrapper {
+                display: flex;
+                align-items: center !important;
             }
 
             .carousel-section .review-count {
-                font-size: 12px;
-                color: #666;
-                margin-left: 4px;
+                font-size: 10px;
+                color: var(--Neutral-600);
+                margin-bottom: 0px;
             }
 
-            .carousel-section .price-container {
-                height: 54px;
-                margin-bottom: 8px;
-                padding-left: 4px;
-            }
-
-            .carousel-section .price-row {
+            .carousel-section .promotions {
+                color: var(--Secondary-400);
+                font-size: 10px;
+                font-family: Quicksand-SemiBold;
                 display: flex;
-                height: 20px;
-                margin-bottom: 4px;
+                flex-direction: column;
+                grid-gap: 12px;
+                gap: 12px;
+            }
+
+            .carousel-section .promotions:has(.promotion-container) {
+                margin: 12px 0;
+            }
+
+            .carousel-section .promotion-container {
+                display: flex;
                 align-items: center;
-                gap: 6px;
-                flex-wrap: nowrap;
+                justify-content: flex-start;
+                grid-gap: 5px;
+                gap: 5px;
             }
 
-            .carousel-section .original-price {
-                font-family: 'Quicksand', sans-serif;
-                font-size: 12px;
-                color: #999;
-                text-decoration: line-through;
-                font-weight: 500;
-            }
-
-            .carousel-section .discount-badge {
-                color: var(--Success-400);
-                font-size: 16px;
-                font-weight: 700;
-                line-height: 1;
-                min-width: 28px;
-                text-align: center;
+            .carousel-section .star-rating {
+                position: relative;
                 display: inline-block;
+                font-size: 10px;
+                line-height: 10px;
             }
 
-            .carousel-section .current-price {
-                font-family: 'Quicksand', sans-serif;
-                font-size: 20px;
-                height: 24px;
-                margin-bottom: 12px;
-                font-weight: 700;
-                color: #333;
+            .carousel-section .star-rating i{
+                font-size: 10px;
+                margin: 0 4px 0 0;
             }
 
-            .carousel-section .current-price.discounted {
-                color: var(--Success-400);
+            .carousel-section .stars-outer,
+            .carousel-section .stars-inner {
+                display: inline-flex;
+            }
+
+            .carousel-section .stars-inner {
+                position: absolute;
+                top: 0;
+                left: 0;
+                overflow: hidden;     
+                white-space: nowrap;
+                pointer-events: none;
+            }
+
+            .carousel-section .stars-outer i { color: #ffe8cc !important; }                  
+            .carousel-section .stars-inner i { color: var(--Secondary-400, #ff8a00) !important; } 
+
+
+            .carousel-section .review-count {
+                margin-bottom: 0;
+                margin-top: 0;
+                color: var(--Neutral-600);
+                font-size: 10px;
+                font-style: Quicksand-Medium;
             }
 
             .carousel-section .promotion-text {
@@ -412,208 +479,345 @@
                 margin-bottom: 44px;
             }
 
-            .carousel-section .promotion {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 26px;
-                padding: 0 8px;
-                margin: 0;
-                width: fit-content;
-                border-radius: 16px;
-                font-family: 'Quicksand';
-                font-size: 10px;
-                font-weight: 540;
+            .carousel-section .promotions i{
+                width: auto;
+                height: 10px;
+                background-position: 50%;
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/money.svg');
+                aspect-ratio: 12.36 / 9.89;
             }
 
-            .carousel-section .promotion.buy-3-pay-2 {
-                background-color: #00a36411;
+            .carousel-section .price-container {
+                margin-top: auto;
+                position: relative;
+                display: flex;
+                justify-content: flex-end;
+                flex-direction: column;
+                padding: 6px 10px 15px;
+                font-family: Quicksand-SemiBold;
+            }
+
+            .carousel-section .price-group {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                height: 100%;
+            }
+
+            .carousel-section .price-row-top {
+                display: flex;
+                align-items: center;
+            }
+
+            .carousel-section .original-price {
+                font-size: 12px;
+                color: var(--Neutral-600);
+                margin-right: 8px;
+                line-height: normal;
+            }
+
+            .carousel-section .discount-badge {
+                background-color: var(--Success-400);
+                color: var(--Neutral-0---White);
+                border-radius: 16px;
+                padding: 0 4px;
+                font-size: 12px;
+            }
+
+            .carousel-section .price-row-bottom {
+                font-weight: 700;
+                font-size: 20px;
+                line-height: 20px;
+                var(--Primary-Black);
+                margin-right: 8px;
+            }
+
+            .carousel-section .current-price.discounted {
                 color: var(--Success-400);
             }
 
-            .carousel-section .add-to-cart {
-                background: #ff88001e;
-                color: var(--Secondary-400);
-                border: none;
-                border-radius: 24px;
-                padding: 12px;
-                margin-top: auto !important;
-                font-family: 'Quicksand', sans-serif;
+            .carousel-section .price-decimal {
                 font-size: 14px;
-                font-weight: bold;
+            }
+
+            .carousel-section .favorite-btn {
+                top: 0;
+                right: 0;
+                position: absolute;
                 cursor: pointer;
-                transition: all 0.2s ease;
+                border-radius: 100%;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 3;
+            }
+
+            .carousel-section .favorite-icon-wrapper {
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                background-color: var(--Neutral-0---White);
+                border: 1.4px solid var(--Neutral-0---White);
+                border-radius: 100%;
+                position: relative;
+            }
+
+            .carousel-section .favorite-icon {
+                position: absolute; /* Position both icons absolutely */
+                top: 50%;
+                left: 50%;
+                height: 15px;
+                width: 15px;
+                transform: translate(-50%, -50%); /* Center them perfectly */
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: 50%;
+                aspect-ratio: 1;
+            }
+
+            .carousel-section .favorite-icon-outline {
+                background-image: url(https://cdn06.e-bebek.com/assets/toys/svg/heart-outline.svg);
+                opacity: 1;
+                z-index: 10;
+            }
+
+            .carousel-section .favorite-icon-orange-outline {
+                background-image: url(https://cdn06.e-bebek.com/assets/toys/svg/heart-orange-outline.svg);
+                opacity: 0;
+                z-index: 11;
+            }
+
+            .carousel-section .favorite-btn:hover .favorite-icon-outline {
+                opacity: 0;
+            }
+
+            .carousel-section .favorite-btn:hover .favorite-icon-orange-outline {
+                opacity: 1;
+            }
+
+            .carousel-section .favorite-btn.active .favorite-icon-outline {
+                opacity: 0;
+            }
+
+            .carousel-section .favorite-btn.active .favorite-icon-orange-outline {
+                opacity: 1;
+            }
+
+            .carousel-section .add-to-cart-wrapper {
+                position: absolute;
+                bottom: 4px;
+                right: 4px;
+            }
+
+            .carousel-section .add-to-cart {
+                border-radius: 100%;
+                overflow: hidden;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 48px;
                 height: 48px;
-                width: 100%;
+                font-size: 11px;
+                font-family: Quicksand-SemiBold;
+                color: #fff;
+                text-decoration: none;
+                transition: none;
+                text-align: center;
+                vertical-align: middle;
+                border: 1px solid #0000;
+                background: transparent;
+                outline: none;
+                z-index: 3;
             }
 
-            .carousel-section .add-to-cart:hover {
-                background: var(--Secondary-400);
-                color: white;
+            .carousel-section .add-to-cart:not(:disabled) {
+                cursor: pointer;
             }
 
-            .carousel-section .carousel-nav {
-                visibility: hidden !important;
+            .carousel-section .add-to-cart-container {
+                width: 40px;
+                height: 40px;
+                background-color: #ffffff;
+                color: var(--Primary-400---Primary);
+                border: none;
+                outline: none;
+                border-radius: 100%;
+                overflow: hidden;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 6px 2px 0 #b0b0b003, 0 2px 9px 0 #b0b0b014, 0 2px 4px 0 #b0b0b024, 0 0 1px 0 #b0b0b03d, 0 0 1px 0 #b0b0b047;
             }
 
+            .carousel-section .add-to-cart i {
+                height: auto;
+                width: 14px;
+                display: inline-block;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: 50%;
+                aspect-ratio: 1;
+            }
 
-            /* Responsive Styles */
-            @media (hover: hover) {
+            .carousel-section .add-to-cart .add-to-cart-icon-blue {
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/plus-blue.svg');
+                display: block;
+            }
+
+            .carousel-section .add-to-cart .add-to-cart-icon-white {
+                background-image: url('https://cdn06.e-bebek.com/assets/toys/svg/plus-white.svg');
+                display: none;
+            }
+
+            .carousel-section .add-to-cart:hover .add-to-cart-container{
+                background-color: var(--Primary-400---Primary);
+            }
+
+            .carousel-section .add-to-cart:hover .add-to-cart-icon-blue {
+                display: none;
+            }
+
+            .carousel-section .add-to-cart:hover .add-to-cart-icon-white {
+                display: block;
+            }
+
+            @media (max-width: 1479px) {
+                .carousel-section .carousel-track .product-card {
+                    flex-basis: calc(25% - 12px) !important;
+                    width: calc(25% - 12px) !important;
+                    min-width: calc(25% - 12px) !important;
+                    max-width: calc(25% - 12px) !important;
+                }
+
+                .carousel-section .carousel-container {
+                    max-width: 1180px !important;
+                }
+            }
+
+            @media (max-width: 1279px) {
+                .carousel-section .carousel-track .product-card {
+                    flex-basis: calc(33.333% - 11px) !important;
+                    width: calc(33.333% - 11px) !important;
+                    aspect-ratio: 298/383;
+                    min-width: calc(33.333% - 11px) !important;
+                    max-width: calc(33.333% - 11px) !important;
+                }
+
+                .carousel-section .carousel-container {
+                    max-width: 960px !important;
+                }
+
+                .carousel-section .carousel-container-wrapper {
+                    max-width: 960px !important;
+                }
+
+                .carousel-section .product-image-container {
+                    aspect-ratio: 298/203;
+                }
+
+                .carousel-section .product-image-wrapper {
+                    aspect-ratio: 298/203; 
+                }
+            }
+
+            @media (max-width: 991px) {
+                .carousel-section .carousel-track .product-card {
+                    flex-basis: calc(50% - 8px) !important;
+                    width: calc(50% - 8px) !important;
+                    aspect-ratio: 337/385;
+                    min-width: calc(50% - 8px) !important;
+                    max-width: calc(50% - 8px) !important;
+                }
+
+                .carousel-section .carousel-container {
+                    max-width: 720px !important;
+                }
+
+                .carousel-section .carousel-container-wrapper {
+                    max-width: 720px !important;
+                }
+
+                .carousel-section .product-image-container {
+                    aspect-ratio: 337/203;
+                }
+
+                .carousel-section .product-image-wrapper {
+                    aspect-ratio: 339/203; 
+                }
+            }
+
+            @media (max-width: 767px) {
+                .carousel-section .carousel-track .product-card {
+                    flex-basis: calc(50% - 8px) !important;
+                    width: calc(50% - 8px) !important;
+                    aspect-ratio: 247/385;
+                    min-width: calc(50% - 8px) !important;
+                    max-width: calc(50% - 8px) !important;
+                }
+
+                .carousel-section .carousel-container {
+                    max-width: 540px !important;
+                }
+
+                .carousel-section .carousel-container-wrapper {
+                    max-width: 540px !important;
+                }
+
+                .carousel-section .product-image-container {
+                    aspect-ratio: 247/203;
+                }
+
+                .carousel-section .product-image-wrapper {
+                    aspect-ratio: 247/203; 
+                }
+            }
+
+            @media (max-width: 575px) {
                 .carousel-section .carousel-nav {
-                    visibility: visible !important;
+                    display: none !important;
+                }
+
+                .carousel-section .carousel-container {
+                    max-width: 100vw !important;
+                }
+
+                .carousel-section .carousel-container-wrapper {
+                    max-width: 100vw !important;
                 }
             }
 
-            @media (hover: none) and (min-width: 768px) {
+            @media (max-width: 480px) {
                 .carousel-section .carousel-nav {
-                    visibility: visible !important;
+                    display: none !important;
+                }
+
+                .carousel-section .carousel-container {
+                    max-width: 100vw !important;
+                }
+
+                .carousel-section .carousel-container-wrapper {
+                    max-width: 100vw !important;
+                }
+
+                .carousel-section .product-image-container {
+                    height: 150px;
+                    aspect-ratio: 214/150;
+                }
+
+                .carousel-section .product-image-wrapper {
+                    height: 150px;
+                    aspect-ratio: 214/150; 
                 }
             }
-
-            @media (hover: none) and (max-width: 480px) {
-                .carousel-section { 
-                    margin: 30px 0px;
-                    width: 100% !important;
-                    max-width: 100vw !important; 
-                }
-                .carousel-section .carousel-container { 
-                    max-width: calc(100vw - 16px) !important;
-                    padding: 0 8px !important; 
-                    border-radius: 1rem; 
-                }
-                .carousel-section .carousel-title { 
-                    margin-bottom: 16px; 
-                    min-height: 3rem;
-                    padding: 10px 0; 
-                }
-                .carousel-section .carousel-title b { 
-                    font-size: 16px !important; 
-                    margin-left: 20px !important; 
-                }
-                .carousel-section .carousel-nav { 
-                    width: 36px; 
-                    height: 36px; 
-                }
-                .carousel-section .product-image-container { 
-                    max-height: 135px; 
-                }
-                .carousel-section .product-info { 
-                    padding: 12px; 
-                }
-                .carousel-section .current-price { 
-                    font-size: 17px !important; 
-                }
-                .carousel-section .carousel-track { 
-                    gap: 8px !important; 
-                }
-                .carousel-section .carousel-wrapper { 
-                    gap: 8px !important; 
-                }
-                .carousel-section .carousel-track .product-card {
-                    flex-basis: calc(50% - 4px) !important;
-                    width: calc(50% - 4px) !important;
-                    min-width: unset !important;
-                    max-width: unset !important;
-                }
-            }
-
-            @media (hover: none) and (min-width: 481px) and (max-width: 767px) {
-                .carousel-section { 
-                    margin: 40px 0px; 
-                }
-                .carousel-section .carousel-container { 
-                    max-width: 100% !important;
-                    padding: 0 12px !important; 
-                    border-radius: 1.2rem; 
-                }
-                .carousel-section .carousel-title b { 
-                    font-size: 18px !important; 
-                    margin-left: 24px !important; 
-                }
-                .carousel-section .carousel-track { 
-                    gap: 10px !important; 
-                }
-                .carousel-section .carousel-wrapper { 
-                    gap: 10px !important; 
-                }
-                .carousel-section .carousel-track .product-card {
-                    flex-basis: calc(33.333% - 7px) !important;
-                    width: calc(33.333% - 7px) !important;
-                    min-width: unset !important;
-                    max-width: unset !important;
-                }
-            }
-
-            @media (min-width: 768px) and (max-width: 1023px) {
-                .carousel-section .carousel-container { 
-                    max-width: 100% !important;
-                    padding: 0 16px !important; 
-                    border-radius: 1.25rem; 
-                }
-                .carousel-section .carousel-title b { 
-                    font-size: 20px !important; 
-                    margin-left: 32px !important; 
-                }
-                .carousel-section .carousel-track { 
-                    gap: 12px !important; 
-                }
-                .carousel-section .carousel-wrapper { 
-                    gap: 12px !important; 
-                }
-                .carousel-section .carousel-track .product-card {
-                    flex-basis: calc(25% - 9px) !important;
-                    width: calc(25% - 9px) !important;
-                    min-width: unset !important;
-                    max-width: unset !important;
-                }
-            }
-
-            @media (min-width: 1024px) and (max-width: 1199px) {
-                .carousel-section .carousel-container { 
-                    max-width: 1120px !important; 
-                    padding: 0 18px !important; 
-                }
-                .carousel-section .carousel-title b { 
-                    font-size: 22px !important; 
-                    margin-left: 44px !important; 
-                }
-                .carousel-section .carousel-track { 
-                    gap: 14px !important; 
-                }
-                .carousel-section .carousel-wrapper { 
-                    gap: 14px !important; 
-                }
-                .carousel-section .carousel-track .product-card {
-                    flex-basis: calc(20% - 11px) !important;
-                    width: calc(20% - 11px) !important;
-                    min-width: unset !important;
-                    max-width: unset !important;
-                }
-            }
-
-            @media (min-width: 1200px) {
-                .carousel-section .carousel-container { 
-                    max-width: 1320px !important; 
-                    padding: 0 20px !important; 
-                }
-                .carousel-section .carousel-title b { 
-                    font-size: 24px !important; 
-                    margin-left: 48px !important; 
-                }
-                .carousel-section .carousel-track { 
-                    gap: 16px !important; 
-                }
-                .carousel-section .carousel-wrapper { 
-                    gap: 16px !important; 
-                }
-                .carousel-section .carousel-track .product-card {
-                    flex-basis: calc(20% - 13px) !important;
-                    width: calc(20% - 13px) !important;
-                    min-width: unset !important;
-                    max-width: unset !important;
-                }
-            }
-
         `;
 
         const style = document.createElement('style');
@@ -636,7 +840,14 @@
             style: 'decimal',
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
-        }).format(price) + ' TL';
+        }).format(price);
+    };
+
+    const splitPrice = (price) => {
+        const formattedPrice = formatPrice(price);
+        const match = formattedPrice.match(/(\d+(?:\.\d{3})*),(\d+)/);
+
+        return match ? [match[1], match[2]] : [price.toString(), "00"];
     };
 
     // Create product card HTMLs with all details the that are fetched from API
@@ -645,20 +856,15 @@
     // Randomly show badges, review counts and ratings for demo purposes
     const createProductCard = (product) => {
 
-        const rating = getRandomInt(1, 5); // Random rating between 1 and 5
-        const reviewCount = getRandomInt(1, 99999); // Random review count between 1 and 9999
+        const rating = (Math.random() * 4 + 1).toFixed(1); // Random rating between 1 and 5
+        const ratingPercent = (rating / 5) * 100;
+        const reviewCount = getRandomInt(1, 999);       // Random review count between 1 and 999
         const isFavorite = favorites.includes(product.id);
         
         let displayPrice = product.price;
         let displayOriginalPrice = product.original_price;
-        let starsHtml = '';
 
-        // Generate star rating HTML
-        for (let i = 1; i <= 5; i++) {
-            starsHtml += `<span class="material-symbols-rounded${i <= rating ? ' filled' : ''}">star</span>`;
-        }
-
-        // Special case for product with id 8 where price is higher than original_price
+        // Special case for product with id 8 where new price is higher than original_price
         if (product.id === 8 && product.price > product.original_price) {
             displayPrice = product.original_price;
             displayOriginalPrice = product.price;
@@ -669,40 +875,103 @@
 
         return `
             <div class="product-card" data-product-id="${product.id}">
-                <div class="product-image-container">
-                    <img class="product-image" src="${product.img}" alt="${product.name}" loading="lazy">
-                    <div class="badge-container">
-                        ${(getRandomInt(0, 1) === 1) ? '<div class="badge free-shipment">KARGO<br>BEDAVA</div>' : ''}
-                        ${(getRandomInt(0, 1) === 1) ? '<div class="badge top-seller">EN ÇOK<br>SATAN</div>' : ''}
-                        ${(getRandomInt(0, 1) === 1) ? '<div class="badge star-product">YILDIZ<br>ÜRÜN</div>' : ''}
-                    </div>
-                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${product.id}">
-                        <span class="material-symbols-rounded">favorite</span>
-                    </button>
-                </div>
-                <div class="product-info">
-                    <h2>
-                        <b>${product.brand} - </b>
-                        ${product.name}
-                    </h2>
-                    <div class="product-rating">
-                        ${starsHtml}
-                        <span class="review-count">(${reviewCount})</span>
-                    </div>
-                    <div class="price-container">
-                        <div class="price-row">
-                            ${hasDiscount ? `
-                            <span class="original-price">${formatPrice(displayOriginalPrice)}</span>
-                            <span class="discount-badge">%${discountPercent}</span>
-                            <svg class="discount-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#00a365"><path d="M480-80q-24 0-46-9t-39-26q-29-29-50-38t-63-9q-50 0-85-35t-35-85q0-42-9-63t-38-50q-17-17-26-39t-9-46q0-24 9-46t26-39q29-29 38-50t9-63q0-50 35-85t85-35q42 0 63-9t50-38q17-17 39-26t46-9q24 0 46 9t39 26q29 29 50 38t63 9q50 0 85 35t35 85q0 42 9 63t38 50q17 17 26 39t9 46q0 24-9 46t-26 39q-29 29-38 50t-9 63q0 50-35 85t-85 35q-42 0-63 9t-50 38q-17 17-39 26t-46 9Zm100-240q25 0 42.5-17.5T640-380q0-25-17.5-42.5T580-440q-25 0-42.5 17.5T520-380q0 25 17.5 42.5T580-320Zm-230-30q12 12 28 12t28-12l204-203q12-12 12-28.5T610-610q-12-12-28.5-12T553-610L350-406q-12 12-12 28t12 28Zm30-170q25 0 42.5-17.5T440-580q0-25-17.5-42.5T380-640q-25 0-42.5 17.5T320-580q0 25 17.5 42.5T380-520Z"/></svg>
-                            ` : ''}
+                <div class="product-card-wrapper">
+                    <div class="product-item-info-group">
+                        <div class="product-image-container">
+                            <div class="badge-container">
+                                ${(getRandomInt(0, 1) === 1) ? '<i class="badge-icon top-seller"></i>' : ''}
+                                ${(getRandomInt(0, 1) === 1) ? '<i class="badge-icon star-product"></i>' : ''}
+                            </div>
+                            <div class="video-ar-container">
+                                ${(getRandomInt(0, 1) === 1) ? '<div class="video-icon-container"><i class="video-icon"></i></div>' : ''}
+                                ${(getRandomInt(0, 1) === 1) ? '<div class="ar-icon-container"><i class="ar-icon"></i></div>' : ''}
+                            </div>
+                            ${(getRandomInt(0, 4) === 0) ? 
+                            `<div class="line-badge">
+                                    <div class="free-shipment-bagde">
+                                        <i class="truck-icon"></i>
+                                        <span>Ücretsiz Kargo</span>
+                                    </div>
+                            </div>`
+                            : ''}
+                            <div class="product-image-wrapper">
+                                <img class="product-image" src="${product.img}" alt="${product.name}" loading="lazy">
+                            </div>    
                         </div>
-                        <div class="current-price${hasDiscount ? ' discounted' : ''}">${formatPrice(displayPrice)}</div>
+
+                        <div class="product-info">
+                            <h2 class="product-brand">
+                                <b>${product.brand} - </b>
+                                <span class="product-name">${product.name}</span>
+                            </h2>
+
+                            <div class="product-rating">
+                                <div class="stars-wrapper">
+                                    <div class="star-rating">
+                                        <span class="stars-outer" aria-hidden="true">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </span>
+                                        <span class="stars-inner" aria-hidden="true" style="width: ${ratingPercent}%;">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </span>
+                                    </div>
+                                    <p class="review-count">(${reviewCount})</p>
+                                </div>
+                            </div>
+
+                            <div class="promotions">
+                                ${(getRandomInt(0, 4) === 0) ? 
+                                `<div class="promotion-container">
+                                        <i class="money-icon"></i>
+                                        <span>Örnek promosyon</span>
+                                </div>`
+                                : ''}
+                            </div>
+                        </div>
                     </div>
-                    <div class="promotion-text">
-                        ${(getRandomInt(0, 1) === 1) ? '<p class="promotion buy-3-pay-2">Farklı Ürünlerde 3 Al 2 Öde</p>' : ''}
+                                    
+                    <div class="price-container">
+                        <div class="price-group">
+                            ${hasDiscount ? `
+                            <div class="price-row-top">
+                                <span class="original-price">
+                                    ${splitPrice(displayOriginalPrice)[0]}<span class="original-price-decimal">,${splitPrice(displayOriginalPrice)[1]} TL</span>
+                                </span>
+                                <span class="discount-badge">${discountPercent}%</span>
+                            </div>
+                            ` : ''}
+                            <div class="price-row-bottom">
+                                <strong class="current-price ${hasDiscount ? 'discounted' : 'regular'}">
+                                    ${splitPrice(displayPrice)[0]}<span class="price-decimal">,${splitPrice(displayPrice)[1]} TL</span>
+                                </strong>
+                            </div>
+                        </div>
                     </div>
-                    <button class="add-to-cart">Sepete Ekle</button>
+                </div>
+
+                <div class="favorite-btn ${isFavorite ? 'active' : ''}" data-product-id="${product.id}">
+                    <div class="favorite-icon-wrapper">
+                        <i class="favorite-icon favorite-icon-outline"></i>
+                        <i class="favorite-icon favorite-icon-orange-outline hovered"></i>
+                    </div>
+                </div>
+
+
+                <div class="add-to-cart-wrapper">
+                    <button class="add-to-cart" data-product-id="${product.id}" type="submit">
+                        <div class="add-to-cart-container">
+                            <i class="add-to-cart-icon-blue"></i>
+                            <i class="add-to-cart-icon-white"></i>
+                        </div>
+                    </button>
                 </div>
             </div>
         `;
@@ -714,6 +983,7 @@
         if (!track || !products.length) return;
 
         track.innerHTML = products.map(createProductCard).join('');
+        
         calculateDimensions();
         updateCarouselPosition();
     };
@@ -726,23 +996,22 @@
         containerWidth = container.offsetWidth;
         visibleItems = getVisibleItems();
         
-        // Get actual card and gap measurements
         const firstCard = document.querySelector('.carousel-section .product-card');
         const track = document.querySelector('.carousel-section .carousel-track');
         
         if (firstCard && track) {
-            // Get real card width and gap
-            const cardWidth = firstCard.getBoundingClientRect().width;
+            const cardWidth = firstCard.offsetWidth; 
             const trackStyle = window.getComputedStyle(track);
             const gap = parseFloat(trackStyle.gap) || 16;
             
-            // Calculate actual item width (card + gap)
             itemWidth = cardWidth + gap;
+            
+
         } else {
-            // Fallback calculation if cards not rendered yet
-            itemWidth = containerWidth / visibleItems;
+            itemWidth = (containerWidth + 16) / visibleItems;
         }
     };
+
 
     // Update carousel position based on currentTranslate value
     // currentTranslate value is calculated in slideNext and slidePrev functions
@@ -800,7 +1069,7 @@
 
     // Load products from localStorage if available, and if not available fetch from API
     // Cache fetched products in localStorage to use in future
-    const loadProducts = async () => {
+    const fetchProducts = async () => {
         try {
             const cachedProducts = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
             
@@ -817,13 +1086,29 @@
             }
         } catch (error) {
             console.error('Error loading products:', error);
-            const track = document.getElementById('carouselTrack');
-            // Show error message in carousel track if fetch fails
-            if (track) {
-                track.innerHTML = '<div class="loading">Ürünler yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin.</div>';
-            }
         }
     };
+
+    function handleAddToCartClick(e) {
+        const addToCartBtn = e.target.closest('.add-to-cart');
+        if (!addToCartBtn) return;
+        
+        const container = addToCartBtn.querySelector('.add-to-cart-container');
+        const iconBlue = addToCartBtn.querySelector('.add-to-cart-icon-blue');
+        const iconWhite = addToCartBtn.querySelector('.add-to-cart-icon-white');
+        
+        // Change to green background and white icon
+        container.style.backgroundColor = '#00a365';
+        if (iconBlue) iconBlue.style.display = 'none';
+        if (iconWhite) iconWhite.style.display = 'block';
+        
+        // After 500ms, return to default style
+        setTimeout(() => {
+            container.style.backgroundColor = '';  // Remove inline style
+            if (iconBlue) iconBlue.style.display = '';   // Remove inline style
+            if (iconWhite) iconWhite.style.display = '';  // Remove inline style
+        }, 500);
+    }
 
     // Set all event listeners for buttons, window resize etc.
     const setEvents = () => {
@@ -838,6 +1123,12 @@
             if (e.target.closest('#nextBtn')) {
                 slideNext();
                 return;
+            }
+
+            if (e.target.closest('.add-to-cart')) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleAddToCartClick(e);
             }
 
             // Handle product card click to open product URL in new tab
@@ -860,21 +1151,6 @@
                 toggleFavorite(productId);
                 return;
             }
-
-            // Handle add to cart button click
-            const addToCartBtn = e.target.closest('.add-to-cart');
-            if (addToCartBtn) {
-                e.preventDefault();
-                e.stopPropagation();
-                addToCartBtn.textContent = 'Eklendi!';
-                addToCartBtn.style.background = '#00a365';
-                addToCartBtn.style.color = '#ffffff';
-                setTimeout(() => {
-                    addToCartBtn.textContent = 'Sepete Ekle';
-                    addToCartBtn.style.background = '';
-                    addToCartBtn.style.color = '';
-                }, 1500);
-            }
         });
 
         // Recalculate dimensions and update carousel position on window resize
@@ -882,30 +1158,18 @@
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
+
+                calculateDimensions();
+
                 currentTranslate = 0;
-                itemWidth = 0;
-                containerWidth = 0;
-                visibleItems = 0;
-
-                // Show loading state
-                const track = document.getElementById('carouselTrack');
-                if (track) {
-                    track.innerHTML = '<div class="loading">Yeniden düzenleniyor...</div>';
-                }
-
-                renderProducts();
                 
-                setTimeout(() => {
-                    calculateDimensions();
-                    updateCarouselPosition();
-                }, 50);
-            }, 100); 
+                updateCarouselPosition();
+            }, 200);
         });
 
+        // Touch events for swipe functionality
         let startX = 0;
         let isDragging = false;
-
-        // Touch events for swipe functionality
         document.addEventListener('touchstart', (e) => {
             if (e.target.closest('.carousel-track')) {
                 startX = e.touches[0].clientX;
