@@ -22,6 +22,11 @@
     let containerWidth = 0;
     let visibleItems = 0;
 
+    // For swipe function
+    let currentDragOffset = 0;
+    let initialTranslate = 0;  
+
+
     // Responsive breakpoints for carousel item count
     const getVisibleItems = () => {
         const w = window.innerWidth;
@@ -98,6 +103,20 @@
 
             .carousel-section * {
                 box-sizing: border-box;
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                -webkit-user-drag: none !important;
+            }
+
+            .carousel-section img {
+                draggable: false;
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                -webkit-user-drag: none !important;
             }
             
             .carousel-section .carousel-container {
@@ -374,6 +393,9 @@
                 -webkit-user-drag: none;
                 user-select: none;
                 pointer-events: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -webkit-user-select: none;
             }
                 
             .carousel-section .product-info {
@@ -663,11 +685,21 @@
             .carousel-section .add-to-cart i {
                 height: auto;
                 width: 14px;
+                font-size: 14px;
                 display: inline-block;
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: 50%;
                 aspect-ratio: 1;
+            }
+
+             .carousel-section .add-to-cart .add-to-cart-loading-icon {
+                color: var(--Primary-400---Primary);
+                display: none;
+                height: auto;
+                width: 10px;
+                aspect-ratio: 1;
+                font-size: 10px;
             }
 
             .carousel-section .add-to-cart .add-to-cart-icon-blue {
@@ -680,6 +712,7 @@
                 display: none;
             }
 
+            /* Hovering */
             .carousel-section .add-to-cart:hover .add-to-cart-container{
                 background-color: var(--Primary-400---Primary);
             }
@@ -690,6 +723,33 @@
 
             .carousel-section .add-to-cart:hover .add-to-cart-icon-white {
                 display: block;
+            }
+
+
+            /* Loading */
+            .carousel-section .add-to-cart.loading:hover .add-to-cart-container {
+                background-color: #ffffff !important; 
+                cursor: default !important;
+            }
+        
+            .carousel-section .add-to-cart.loading:hover .add-to-cart-icon-blue,
+            .carousel-section .add-to-cart.loading:hover .add-to-cart-icon-white {
+                display: none !important; /* Keep white icon hidden */
+            }
+
+            .carousel-section .add-to-cart.loading .add-to-cart-icon-blue,
+            .carousel-section .add-to-cart.loading .add-to-cart-icon-white {
+                display: none;
+            }
+
+            .carousel-section .add-to-cart.loading .add-to-cart-loading-icon {
+                display: block;
+                animation: spin 5s linear infinite;
+            }
+
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
             }
 
             @media (max-width: 1479px) {
@@ -714,18 +774,12 @@
                     max-width: calc(33.333% - 11px) !important;
                 }
 
-                .carousel-section .carousel-container {
-                    max-width: 960px !important;
-                }
-
+                .carousel-section .carousel-container, 
                 .carousel-section .carousel-container-wrapper {
                     max-width: 960px !important;
                 }
 
-                .carousel-section .product-image-container {
-                    aspect-ratio: 298/203;
-                }
-
+                .carousel-section .product-image-container,
                 .carousel-section .product-image-wrapper {
                     aspect-ratio: 298/203; 
                 }
@@ -740,20 +794,14 @@
                     max-width: calc(50% - 8px) !important;
                 }
 
-                .carousel-section .carousel-container {
-                    max-width: 720px !important;
-                }
-
+                .carousel-section .carousel-container,
                 .carousel-section .carousel-container-wrapper {
                     max-width: 720px !important;
                 }
 
-                .carousel-section .product-image-container {
-                    aspect-ratio: 337/203;
-                }
-
+                .carousel-section .product-image-container,
                 .carousel-section .product-image-wrapper {
-                    aspect-ratio: 339/203; 
+                    aspect-ratio: 337/203; 
                 }
             }
 
@@ -766,20 +814,14 @@
                     max-width: calc(50% - 8px) !important;
                 }
 
-                .carousel-section .carousel-container {
-                    max-width: 540px !important;
-                }
-
+                .carousel-section .carousel-container, 
                 .carousel-section .carousel-container-wrapper {
                     max-width: 540px !important;
                 }
 
+                .carousel-section .product-image-wrapper,
                 .carousel-section .product-image-container {
                     aspect-ratio: 247/203;
-                }
-
-                .carousel-section .product-image-wrapper {
-                    aspect-ratio: 247/203; 
                 }
             }
 
@@ -802,6 +844,38 @@
                     display: none !important;
                 }
 
+                .carousel-section .carousel-container,
+                .carousel-section .carousel-container-wrapper {
+                    max-width: 100vw !important;
+                }
+
+                .carousel-section .product-image-container, 
+                .carousel-section .product-image-wrapper {
+                    height: 150px;
+                    aspect-ratio: 214/150; 
+                }
+            }
+
+            
+            @media (max-width: 576px) and (orientation: portrait), 
+                (max-width: 480px) and (hover: none){
+
+                .carousel-section .carousel-track .product-card {
+                        aspect-ratio: 182/330;
+                }
+                        
+                .carousel-section .carousel-title b {
+                        font-size: 20px !important;
+                }
+            }
+
+            @media (max-width: 480px) and (pointer: coarse), 
+                (max-width: 480px) and (hover: none) {
+
+                .carousel-section .carousel-nav {
+                    display: none !important;
+                }
+
                 .carousel-section .carousel-container {
                     max-width: 100vw !important;
                 }
@@ -810,14 +884,66 @@
                     max-width: 100vw !important;
                 }
 
-                .carousel-section .product-image-container {
-                    height: 150px;
-                    aspect-ratio: 214/150;
-                }
-
+                .carousel-section .product-image-container, 
                 .carousel-section .product-image-wrapper {
                     height: 150px;
-                    aspect-ratio: 214/150; 
+                    aspect-ratio: 170/150;
+                }
+
+                .carousel-section .carousel-title b {
+                    font-size: 20px !important;
+                }
+            }
+
+            @media (max-width: 412px) and (pointer: coarse), 
+                (max-width: 412px) and (hover: none) {
+
+                .carousel-section .carousel-nav {
+                    display: none !important;
+                }
+
+                .carousel-section .carousel-container {
+                    max-width: 100vw !important;
+                }
+
+                .carousel-section .carousel-container-wrapper {
+                    max-width: 100vw !important;
+                }
+
+                .carousel-section .product-image-container, 
+                .carousel-section .product-image-wrapper {
+                    height: 150px;
+                    aspect-ratio: 180/150;
+                }
+
+                .carousel-section .carousel-title b {
+                    font-size: 20px !important;
+                }
+            }
+
+            @media (max-width: 360px) and (pointer: coarse), 
+                (max-width: 360px) and (hover: none) {
+
+                .carousel-section .carousel-nav {
+                    display: none !important;
+                }
+
+                .carousel-section .carousel-container {
+                    max-width: 100vw !important;
+                }
+
+                .carousel-section .carousel-container-wrapper {
+                    max-width: 100vw !important;
+                }
+
+                .carousel-section .product-image-container, 
+                .carousel-section .product-image-wrapper {
+                    height: 150px;
+                    aspect-ratio: 155/150;
+                }
+
+                .carousel-section .carousel-title b {
+                    font-size: 16px !important;
                 }
             }
         `;
@@ -965,6 +1091,7 @@
                         <div class="add-to-cart-container">
                             <i class="add-to-cart-icon-blue"></i>
                             <i class="add-to-cart-icon-white"></i>
+                            <i class="fa-solid fa-circle-notch add-to-cart-loading-icon"></i>
                         </div>
                     </button>
                 </div>
@@ -1086,23 +1213,23 @@
 
     function handleAddToCartClick(e) {
         const addToCartBtn = e.target.closest('.add-to-cart');
-        if (!addToCartBtn) return;
+        const loadingIcon = addToCartBtn.querySelector('.add-to-cart-loading-icon');
+
+        if (!addToCartBtn || addToCartBtn.classList.contains('loading')) return;
         
-        const container = addToCartBtn.querySelector('.add-to-cart-container');
-        const iconBlue = addToCartBtn.querySelector('.add-to-cart-icon-blue');
-        const iconWhite = addToCartBtn.querySelector('.add-to-cart-icon-white');
+        addToCartBtn.classList.add('loading');
+        addToCartBtn.disabled = true; 
+
+        // Show animation
+        if (loadingIcon) {
+            loadingIcon.classList.add('fa-spin');
+        }
         
-        // Change to green background and white icon
-        container.style.backgroundColor = '#00a365';
-        if (iconBlue) iconBlue.style.display = 'none';
-        if (iconWhite) iconWhite.style.display = 'block';
-        
-        // After 500ms, return to default style
         setTimeout(() => {
-            container.style.backgroundColor = '';  // Remove inline style
-            if (iconBlue) iconBlue.style.display = '';   // Remove inline style
-            if (iconWhite) iconWhite.style.display = '';  // Remove inline style
-        }, 500);
+            addToCartBtn.classList.remove('loading');
+            loadingIcon.classList.remove('fa-spin');
+            addToCartBtn.disabled = false;
+        }, 1000);
     }
 
     // Set all event listeners for buttons, window resize etc.
@@ -1162,41 +1289,139 @@
             }, 200);
         });
 
-        // Touch events for swipe functionality
-        let startX = 0;
-        let isDragging = false;
-        document.addEventListener('touchstart', (e) => {
+        // Mouse swipe functions
+        document.addEventListener('mousedown', e => {
             if (e.target.closest('.carousel-track')) {
-                startX = e.touches[0].clientX;
-                isDragging = true;
-            }
-        });
-
-        document.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            e.preventDefault();
-        });
-
-        document.addEventListener('touchend', (e) => {
-            if (!isDragging) return;
-            
-            const endX = e.changedTouches[0].clientX;
-            const diffX = startX - endX;
-            
-            const threshold = itemWidth * 0.4;
-            
-            if (Math.abs(diffX) > threshold) {
-                if (diffX > 0) {
-                    slideNext(); 
-                } else {
-                    slidePrev(); 
+                startX = e.clientX
+                isDragging = true
+                initialTranslate = currentTranslate
+                currentDragOffset = 0
+                
+                const track = document.getElementById('carouselTrack')
+                if (track) {
+                track.style.transition = 'none'
                 }
-            } else {
-                updateCarouselPosition(); 
+                
+                e.preventDefault()
+            }
+        })
+
+        document.addEventListener('mousemove', e => {
+            if (!isDragging) return
+            
+            const currentX = e.clientX
+            const diffX = currentX - startX
+            currentDragOffset = diffX
+            
+            const newTranslate = initialTranslate + diffX
+            const maxTranslate = -(itemWidth * (products.length - visibleItems))
+            
+            const boundedTranslate = Math.max(Math.min(newTranslate, 50), maxTranslate - 50)
+            
+            const track = document.getElementById('carouselTrack')
+            if (track) {
+                track.style.transform = `translateX(${boundedTranslate}px)`
             }
             
-            isDragging = false;
-        });
+            e.preventDefault()
+        })
+
+        document.addEventListener('mouseup', e => {
+            if (!isDragging) return
+            
+            const track = document.getElementById('carouselTrack')
+            if (track) {
+                track.style.transition = 'transform 0.3s'
+            }
+            
+            const finalTranslate = initialTranslate + currentDragOffset
+            const maxTranslate = -(itemWidth * (products.length - visibleItems))
+            
+            const nearestIndex = Math.round(-finalTranslate / itemWidth)
+            const clampedIndex = Math.max(0, Math.min(nearestIndex, products.length - visibleItems))
+            
+            currentTranslate = -(clampedIndex * itemWidth)
+            updateCarouselPosition()
+            
+            isDragging = false
+            currentDragOffset = 0
+        })
+
+        // Handle mouse leave
+        document.addEventListener('mouseleave', e => {
+            if (isDragging && !e.target.closest('.carousel-section')) {
+                const track = document.getElementById('carouselTrack')
+                if (track) {
+                track.style.transition = 'transform 0.3s'
+                }
+                
+                const finalTranslate = initialTranslate + currentDragOffset
+                const nearestIndex = Math.round(-finalTranslate / itemWidth)
+                const clampedIndex = Math.max(0, Math.min(nearestIndex, products.length - visibleItems))
+                
+                currentTranslate = -(clampedIndex * itemWidth)
+                updateCarouselPosition()
+                
+                isDragging = false
+                currentDragOffset = 0
+            }
+        })
+
+
+        // Touch swipe functions
+        document.addEventListener('touchstart', e => {
+            if (e.target.closest('.carousel-track')) {
+                startX = e.touches[0].clientX
+                isDragging = true
+                initialTranslate = currentTranslate
+                currentDragOffset = 0
+                
+                const track = document.getElementById('carouselTrack')
+                if (track) {
+                track.style.transition = 'none'
+                }
+            }
+        })
+
+        document.addEventListener('touchmove', e => {
+            if (!isDragging) return
+            
+            const currentX = e.touches[0].clientX
+            const diffX = currentX - startX
+            currentDragOffset = diffX
+            
+            const newTranslate = initialTranslate + diffX
+            const maxTranslate = -(itemWidth * (products.length - visibleItems))
+            
+            const boundedTranslate = Math.max(Math.min(newTranslate, 50), maxTranslate - 50)
+            
+            const track = document.getElementById('carouselTrack')
+            if (track) {
+                track.style.transform = `translateX(${boundedTranslate}px)`
+            }
+            
+            e.preventDefault()
+        })
+
+        document.addEventListener('touchend', e => {
+            if (!isDragging) return
+        
+        const track = document.getElementById('carouselTrack')
+            if (track) {
+                track.style.transition = 'transform 0.3s ease-out'
+            }
+            
+            const finalTranslate = initialTranslate + currentDragOffset
+            const nearestIndex = Math.round(-finalTranslate / itemWidth)
+            const clampedIndex = Math.max(0, Math.min(nearestIndex, products.length - visibleItems))
+            
+            currentTranslate = -(clampedIndex * itemWidth)
+            updateCarouselPosition()
+            
+            isDragging = false
+            currentDragOffset = 0
+        })
+
     };
 
     init();
