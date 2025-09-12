@@ -1,3 +1,5 @@
+// Çağatay Kahraman
+
 (() => {
     const init = () => {
         buildHTML();
@@ -11,10 +13,10 @@
     const STORAGE_KEYS = {
         PRODUCTS: 'carousel_products',
         FAVORITES: 'carousel_favorites'
-    }; // Keys for localStorage
+    }; 
 
-    let products = []; // Array that holds product data
-    let favorites = JSON.parse(localStorage.getItem(STORAGE_KEYS.FAVORITES)) || []; // Array that holds favorite product IDs
+    let products = []; 
+    let favorites = JSON.parse(localStorage.getItem(STORAGE_KEYS.FAVORITES)) || [];
     let currentTranslate = 0; 
     let itemWidth = 0; 
     let containerWidth = 0;
@@ -825,8 +827,7 @@
         document.head.appendChild(style);
     };
 
-    // Calculate discount percentage by comparing price and original price
-    // If price is greater than or equal to original price, return 0
+    // Calculate discount by comparing price and original price
     // Round to nearest whole number
     const calculateDiscount = (price, originalPrice) => {
         if (price >= originalPrice || originalPrice === price) return 0;
@@ -851,9 +852,8 @@
     };
 
     // Create product card HTMLs with all details the that are fetched from API
-    // Show discount badge if there is a discount
     // Highlight favorite button if product is in favorites list
-    // Randomly show badges, review counts and ratings for demo purposes
+    // Randomly show badges, review counts etc. for demo purposes
     // Special case for item ID = "8" where its original and discounted prices are swapped is also handled
     const createProductCard = (product) => {
 
