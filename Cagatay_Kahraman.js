@@ -1344,8 +1344,7 @@
             isDragging = false
             currentDragOffset = 0
         })
-
-        // Handle mouse leave
+        
         document.addEventListener('mouseleave', e => {
             if (isDragging && !e.target.closest('.carousel-section')) {
                 const track = document.getElementById('carouselTrack')
