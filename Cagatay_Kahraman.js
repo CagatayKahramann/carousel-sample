@@ -854,6 +854,7 @@
     // Show discount badge if there is a discount
     // Highlight favorite button if product is in favorites list
     // Randomly show badges, review counts and ratings for demo purposes
+    // Special case for item ID = "8" where its original and discounted prices are swapped is also handled
     const createProductCard = (product) => {
 
         const rating = (Math.random() * 4 + 1).toFixed(1); // Random rating between 1 and 5
@@ -861,14 +862,8 @@
         const reviewCount = getRandomInt(1, 999);       // Random review count between 1 and 999
         const isFavorite = favorites.includes(product.id);
         
-        let displayPrice = product.price;
-        let displayOriginalPrice = product.original_price;
-
-        // Special case for product with id 8 where new price is higher than original_price
-        if (product.id === 8 && product.price > product.original_price) {
-            displayPrice = product.original_price;
-            displayOriginalPrice = product.price;
-        }
+        let displayPrice = Math.min(product.price, product.original_price);
+        let displayOriginalPrice = Math.max(product.price, product.original_price);
 
         const discountPercent = calculateDiscount(displayPrice, displayOriginalPrice);
         const hasDiscount = discountPercent > 0;
