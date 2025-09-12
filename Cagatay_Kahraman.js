@@ -1,5 +1,3 @@
-// Çağatay Kahraman
-
 (() => {
     const init = () => {
         buildHTML();
